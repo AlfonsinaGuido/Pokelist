@@ -3,31 +3,21 @@ module.exports = {
   content: ["./src/**/*.{html,ts}"],
   mode: 'jit',
   theme: {
+    screens: {
+      'max-sm': {'max': '799px'},
+      'max-md': {'max': '1023px'},
+      'max-lg': {'max': '1199px'},
+    },
     extend: {
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
+        sans: ['Spartan', 'sans-serif'],
       },
       colors: {
-        "blue-pressed": "#0031E2",
-        "blue-hover": "#345CE9",
-        "blue-default": "#617FED",
-        "lighter-blue": "#EBEEF5",
-        "dark-purp": "#51009D",
-        "light-purp": "#990587",
-        "dark": "#161616",
-        "gray-1": "#1F2937",
-        "gray-2": "#374151",
-        "gray-5": "#9CA3AF",
-        "gray-6": "#D1D5DB",
-        "gray-8": "#F8F8F8",
-        "gray-9": "#6B7280",
-        "dark-gray": "#585959",
-        "light-gray": "#ACACAA",
-        "lighter-gray": "#F1F2F3",      
-        "lighter": "#FAFAFA",
-        "success": "#328222",
-        "fail": "#CB4141",
-        "warning": "#DDAA22"
+        "red": "#F44034",
+        "yellow": "#FFCC00",
+        "blue":"#4B91E2",
+        "grey": "#5C5C5C",
+        "green": "#80C684"
       },
       fontSize: {
         xsm: "5px",
@@ -50,7 +40,20 @@ module.exports = {
         'card-shadow-medium': '-2px -2px 6px 0px rgba(255, 255, 255, 0.80), 2px 2px 6px 0px rgba(166, 180, 200, 0.70);'
       },
       backgroundImage: {
-        'gradient-body': 'linear-gradient(180deg, #F0F2F5 50.08%, #D7DFFF 162.72%)'
+        'gradient-body': 'linear-gradient(to bottom, #80C684 70%, #FFCC00 100%);'
+      },
+      animation: {
+        'heartbeat': 'heartbeat 1s ease-in-out infinite',
+      },
+      keyframes: {
+        heartbeat: {
+          '0%, 100%': {
+            transform: 'scale(1)',
+          },
+          '50%': {
+            transform: 'scale(1.1)',
+          },
+        },
       }
     },
   },

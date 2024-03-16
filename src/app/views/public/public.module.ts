@@ -7,6 +7,7 @@ import { LandingComponent } from './landing/landing.component';
 import { ListComponent } from './list/list.component';
 import { ModalDetailComponent } from './modal-detail/modal-detail.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const components: any[] = [
   LandingComponent,
@@ -16,7 +17,7 @@ const components: any[] = [
 
 @NgModule({
   declarations: [components],
-  imports: [CommonModule, RouterModule, MatDialogModule, ReactiveFormsModule, MatCardModule],
+  imports: [CommonModule, RouterModule, MatDialogModule, ReactiveFormsModule, MatCardModule, BrowserAnimationsModule],
   exports: [components],
   providers: [],
 })
