@@ -1,0 +1,36 @@
+<div class="flex justify-center">
+    <form [formGroup]="formFilter" class="flex my-3 relative justify-items-center">
+        <input class="rounded-3xl p-3 ps-10 border border-dark-purp w-48" type="search" formControlName="search" (input)="filter()" placeholder="Ingresa el nombre">
+        <span class="material-symbols-rounded absolute left-3 top-2.5 text-gray-5">
+            search
+        </span>
+        <select class="rounded-3xl p-3 border border-dark-purp" formControlName="pageSizeSelect" (change)="loadPage(1)">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+        <button class="rounded-3xl p-1 border border-dark-purp" (click)="sortByNameAsc()">
+            <span class="material-symbols-rounded">
+                sort_by_alpha
+            </span>
+            <span class="material-symbols-rounded">
+                south
+            </span>
+        </button>
+        <button class="rounded-3xl p-1 border border-dark-purp" (click)="sortByNameDesc()">
+            <span class="material-symbols-rounded">
+                sort_by_alpha
+            </span>
+            <span class="material-symbols-rounded">
+                north
+            </span>
+        </button>
+    </form>
+</div>
+<ul>
+    <li *ngFor="let pokemon of displayedPokemons">
+        <p (click)="getPokemonDetail(pokemon.name)">{{ pokemon.name }}</p>
+    </li>
+</ul>
+<button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
+<button (click)="nextPage()" [disabled]="currentPage * pageSize >= data.length">Siguiente</button>

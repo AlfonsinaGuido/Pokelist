@@ -50,8 +50,7 @@ module.exports = {
         'card-shadow-medium': '-2px -2px 6px 0px rgba(255, 255, 255, 0.80), 2px 2px 6px 0px rgba(166, 180, 200, 0.70);'
       },
       backgroundImage: {
-        'gradient-body': 'linear-gradient(180deg, #F0F2F5 50.08%, #D7DFFF 162.72%)',
-        'login': "url('assets/svg/background-login.svg')",
+        'gradient-body': 'linear-gradient(180deg, #F0F2F5 50.08%, #D7DFFF 162.72%)'
       }
     },
   },

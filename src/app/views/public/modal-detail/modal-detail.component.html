@@ -1,0 +1,17 @@
+<p>Nombre: {{ data.name }}</p>
+<p>Peso: {{ data.weight }} kg</p>
+<p>Altura: {{ data.height }} m</p>
+<div>
+    <h3>Tipos:</h3>
+    <ul>
+    <li *ngFor="let type of data.types">{{ type.type.name }}</li>
+    </ul>
+</div>
+<div>
+    <h3>Habilidades:</h3>
+    <ul>
+    <li *ngFor="let ability of data.abilities">{{ ability.ability.name }}</li>
+    </ul>
+</div>
+<img [src]="data.sprites.front_default" alt="front_{{ data.name }}">
+<img [src]="data.sprites.back_default" alt="back_{{ data.name }}">
