@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 import { LandingComponent } from './landing/landing.component';
 import { ListComponent } from './list/list.component';
 import { ModalDetailComponent } from './modal-detail/modal-detail.component';
@@ -15,7 +16,7 @@ const components: any[] = [
 
 @NgModule({
   declarations: [components],
-  imports: [CommonModule, RouterModule, MatDialogModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, MatDialogModule, ReactiveFormsModule, MatCardModule],
   exports: [components],
   providers: [],
 })

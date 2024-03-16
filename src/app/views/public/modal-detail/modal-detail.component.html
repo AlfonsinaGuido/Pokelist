@@ -15,3 +15,13 @@
 </div>
 <img [src]="data.sprites.front_default" alt="front_{{ data.name }}">
 <img [src]="data.sprites.back_default" alt="back_{{ data.name }}">
+<div>
+    <h3>Estadística:</h3>
+    <div *ngFor="let stat of data.stats">
+        <ul>
+            <li>{{ stat.stat.name }}</li>
+            <li>Valor Base: {{ stat.base_stat }}</li>
+            <li>Puntos de Esfuerzo: {{ stat.effort }}</li>
+        </ul>
+    </div>
+</div>

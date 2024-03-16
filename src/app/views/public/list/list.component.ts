@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalDetailComponent } from '../modal-detail/modal-detail.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '@services';
-import { Pokelist, Pokemon } from '@interfaces';
+import { Pokemon } from '@interfaces';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -12,40 +12,47 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ListComponent implements OnInit {
 
-  public pokelist: Pokelist["results"] = [];
+  public pokelist: Pokemon[] = [];
 
   public formFilter: FormGroup = new FormGroup({});
   private patternSearch = /\p{Diacritic}/gu;
   private NFD = 'NFD';
-  public data: Pokelist["results"] = [];
+  public data: Pokemon[] = [];
   public isFiltered: boolean = false;
 
   public pageSize: number = 10;
   public currentPage: number = 1;
-  public displayedPokemons: Pokelist["results"] = [];
+  public displayedPokemons: Pokemon[] = [];
+
+  public isLoading: boolean = true;
 
   constructor(private dialog: MatDialog, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.formFilter = new FormGroup({
       search: new FormControl('', []),
-      pageSizeSelect: new FormControl(5, [])
+      pageSizeSelect: new FormControl(5, []),
+      sortListSelect: new FormControl('Ordenar Lista', [])
     });
     this.getPokelist();
   }
 
   async getPokelist() {
-    const data = await this.dataService.getPokelist().toPromise();
-    if (data) {
-      this.pokelist = data.results;
-      this.data = data.results;
-      this.loadPage(1);
+    const pokemons: Pokemon[] = [];
+    for (let i = 1; i <= 40; i++) {
+      try {
+        const pokemon = await this.dataService.getPokelist(i).toPromise();
+        if (pokemon) pokemons.push(pokemon);
+      } catch (error) {
+        console.error(`Error al obtener el Pokémon con ID ${i}:`, error);
+      }
     }
-  }
-
-  async getPokemonDetail(name:string) {
-    const pokemon = await this.dataService.getPokemon(name).toPromise();
-    if (pokemon) this.openModal(pokemon);
+    if (pokemons.length > 0) {
+      this.pokelist = pokemons;
+      this.data = pokemons;
+      this.loadPage(1);
+      this.isLoading = false;
+    }
   }
 
   openModal(pokemon: Pokemon) {
@@ -119,12 +126,59 @@ export class ListComponent implements OnInit {
     }
   }
 
+  onChangeSortListSelect(): void {
+    this.sortList();
+    this.loadPage(this.currentPage);
+  }
+
+  sortList(): void {
+    const value = this.formFilter.get('sortListSelect')?.value;
+    switch (value) {
+      case 'Nombre A-Z':
+        this.sortByNameAsc();
+        break;
+      case 'Nombre Z-A':
+        this.sortByNameDesc();
+        break;
+      case 'Tipo A-Z':
+        this.sortByTypeAsc();
+        break;
+      case 'Tipo Z-A':
+        this.sortByTypeDesc();
+        break;
+      case 'Peso de menor a mayor':
+        this.sortByWeightAsc();
+        break;
+      case 'Peso de mayor a menor':
+        this.sortByWeightDesc();
+        break;
+      default:
+        break;
+    }
+  }
+
   sortByNameAsc(): void {
-    this.displayedPokemons.sort((a, b) => a.name.localeCompare(b.name));
+    this.data.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   sortByNameDesc(): void {
-    this.displayedPokemons.sort((a, b) => b.name.localeCompare(a.name));
+    this.data.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  sortByTypeAsc(): void {
+    this.data.sort((a, b) => a.types[0].type.name.localeCompare(b.types[0].type.name));
+  }
+
+  sortByTypeDesc(): void {
+    this.data.sort((a, b) => b.types[0].type.name.localeCompare(a.types[0].type.name));
+  }
+
+  sortByWeightAsc(): void {
+    this.data.sort((a, b) => a.weight - b.weight);
+  }
+
+  sortByWeightDesc(): void {
+    this.data.sort((a, b) => b.weight - a.weight);
   }
 
 }

@@ -1,3 +1,8 @@
+<div *ngIf="isLoading" class="flex justify-center items-center h-screen">
+    <div class="w-24 h-24 relative animate-spin">
+        <img src="assets/png/pokebola.png" alt="Pokeball" class="absolute inset-0 w-full h-full">
+    </div>
+</div>
 <div class="flex justify-center">
     <form [formGroup]="formFilter" class="flex my-3 relative justify-items-center">
         <input class="rounded-3xl p-3 ps-10 border border-dark-purp w-48" type="search" formControlName="search" (input)="filter()" placeholder="Ingresa el nombre">
@@ -9,28 +14,41 @@
             <option value="10">10</option>
             <option value="20">20</option>
         </select>
-        <button class="rounded-3xl p-1 border border-dark-purp" (click)="sortByNameAsc()">
-            <span class="material-symbols-rounded">
-                sort_by_alpha
-            </span>
-            <span class="material-symbols-rounded">
-                south
-            </span>
-        </button>
-        <button class="rounded-3xl p-1 border border-dark-purp" (click)="sortByNameDesc()">
-            <span class="material-symbols-rounded">
-                sort_by_alpha
-            </span>
-            <span class="material-symbols-rounded">
-                north
-            </span>
-        </button>
+        <select class="rounded-3xl p-3 border border-dark-purp" formControlName="sortListSelect" (change)="onChangeSortListSelect()">
+            <option value="Ordenar Lista" disabled="true">Ordenar Lista</option>
+            <option value="Nombre A-Z">Nombre A-Z</option>
+            <option value="Nombre Z-A">Nombre Z-A</option>
+            <option value="Tipo A-Z">Tipo A-Z</option>
+            <option value="Tipo Z-A">Tipo Z-A</option>
+            <option value="Peso de menor a mayor">Peso de menor a mayor</option>
+            <option value="Peso de mayor a menor">Peso de mayor a menor</option>
+        </select>
     </form>
 </div>
-<ul>
-    <li *ngFor="let pokemon of displayedPokemons">
-        <p (click)="getPokemonDetail(pokemon.name)">{{ pokemon.name }}</p>
-    </li>
-</ul>
+<mat-card *ngFor="let pokemon of displayedPokemons">
+    <mat-card-header>
+        <div mat-card-avatar>
+            <img [src]="pokemon.sprites.front_default" alt="Imagen de {{pokemon.name}}">
+        </div>
+        <mat-card-title>{{pokemon.name}}</mat-card-title>
+        <mat-card-subtitle>{{pokemon.id}}</mat-card-subtitle>
+        <mat-card-subtitle (click)="openModal(pokemon)">Ver detalle</mat-card-subtitle>
+        <div>
+            <h3>Tipos:</h3>
+            <ul>
+            <li *ngFor="let type of pokemon.types">{{ type.type.name }}</li>
+            </ul>
+        </div>
+        <div>
+            <h3>Habilidades:</h3>
+            <ul>
+            <li *ngFor="let ability of pokemon.abilities">{{ ability.ability.name }}</li>
+            </ul>
+        </div>
+        <div>
+            Peso: {{pokemon.weight}}
+        </div>
+    </mat-card-header>
+</mat-card>
 <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
 <button (click)="nextPage()" [disabled]="currentPage * pageSize >= data.length">Siguiente</button>
