@@ -4,19 +4,14 @@
         <p class="font-bold absolute top-[5.55rem] right-[4.83rem] text-lg bg-yellow rounded-full w-8 h-8 py-1">GO!</p>
     </div>
 </div>
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoading" class="px-10 max-w-[1440px] mx-auto mb-4">
     <div class="flex justify-center">
-        <form [formGroup]="formFilter" class="flex my-3 relative justify-items-center">
-            <input class="rounded-3xl p-3 ps-10 border border-dark-purp w-48" type="search" formControlName="search" (input)="filter()" placeholder="Ingresa el nombre">
+        <form [formGroup]="formFilter" class="flex my-3 relative items-center gap-3 max-sm:flex-col">
+            <input class="rounded-3xl p-3 ps-10 border-2 border-blue w-[198px]" type="search" formControlName="search" (input)="filter()" placeholder="Ingresa el nombre">
             <span class="material-symbols-rounded absolute left-3 top-2.5 text-gray-5">
                 search
             </span>
-            <select class="rounded-3xl p-3 border border-dark-purp" formControlName="pageSizeSelect" (change)="loadPage(1)">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="20">20</option>
-            </select>
-            <select class="rounded-3xl p-3 border border-yellow" formControlName="sortListSelect" (change)="onChangeSortListSelect()">
+            <select class="rounded-3xl px-3 py-[13px] border-2 border-blue cursor-pointer" formControlName="sortListSelect" (change)="onChangeSortListSelect()">
                 <option value="Ordenar Lista" disabled="true">Ordenar Lista</option>
                 <option value="Nombre A-Z">Nombre A-Z</option>
                 <option value="Nombre Z-A">Nombre Z-A</option>
@@ -27,31 +22,80 @@
             </select>
         </form>
     </div>
-    <mat-card *ngFor="let pokemon of displayedPokemons">
-        <mat-card-header>
-            <div mat-card-avatar>
-                <img [src]="pokemon.sprites.front_default" alt="Imagen de {{pokemon.name}}">
-            </div>
-            <mat-card-title>{{pokemon.name}}</mat-card-title>
-            <mat-card-subtitle>{{pokemon.id}}</mat-card-subtitle>
-            <mat-card-subtitle (click)="openModal(pokemon)">Ver detalle</mat-card-subtitle>
-            <div>
-                <h3>Tipos:</h3>
+    <div class="flex flex-wrap p-4 text-lg font-bold text-grey max-sm:hidden">
+        <div class="w-1/5 p-4 flex justify-center">
+            Nombre
+        </div>
+        <div class="w-1/5 p-4 flex justify-center">
+            Tipo/s
+        </div>
+        <div class="w-1/5 p-4 flex justify-center">
+            Habilidad/es
+        </div>
+        <div class="w-1/5 p-4 flex justify-center">
+            Peso
+        </div>
+        <div class="w-1/5 p-4 flex justify-center">
+        </div>
+    </div>
+    <div *ngFor="let pokemon of displayedPokemons" class="mb-2 rounded-3xl border-2 border-blue bg-yellow hover:bg-white cursor-pointer" (click)="openModal(pokemon)">
+        <div class="flex flex-wrap p-4 text-lg text-grey max-sm:flex-col">
+            <div class="w-1/5 p-4 flex justify-center items-center max-sm:w-full max-sm:items-start">
+                <div class="font-bold me-2 hidden max-sm:block">Nombre</div>
                 <ul>
-                <li *ngFor="let type of pokemon.types">{{ type.type.name }}</li>
+                    <li class="font-bold">{{pokemon.name}}</li>
+                    <li>#{{pokemon.id}}</li>
                 </ul>
             </div>
-            <div>
-                <h3>Habilidades:</h3>
+            <div class="w-1/5 p-4 flex justify-center items-center max-sm:w-full max-sm:items-start">
+                <div class="font-bold me-2 hidden max-sm:block">Tipo/s</div>
                 <ul>
-                <li *ngFor="let ability of pokemon.abilities">{{ ability.ability.name }}</li>
+                    <li *ngFor="let type of pokemon.types">{{ type.type.name }}</li>
                 </ul>
             </div>
-            <div>
-                Peso: {{pokemon.weight}}
+            <div class="w-1/5 p-4 flex justify-center items-center max-sm:w-full max-sm:items-start">
+                <div class="font-bold me-2 hidden max-sm:block">Habilidad/es</div>
+                <ul>
+                    <li *ngFor="let ability of pokemon.abilities">{{ ability.ability.name }}</li>
+                </ul>
             </div>
-        </mat-card-header>
-    </mat-card>
-    <button (click)="prevPage()" [disabled]="currentPage === 1">Anterior</button>
-    <button (click)="nextPage()" [disabled]="currentPage * pageSize >= data.length">Siguiente</button>    
+            <div class="w-1/5 p-4 flex justify-center items-center max-sm:w-full max-sm:items-start">
+                <div class="font-bold me-2 hidden max-sm:block">Peso</div>
+                {{pokemon.weight}} Kg
+            </div>
+            <div class="w-1/5 p-4 flex justify-center max-sm:w-full">
+                <img [src]="pokemon.sprites.front_default" alt="front_{{ pokemon.name }}" class="border-2 border-blue rounded-3xl bg-white">
+            </div>
+        </div>
+    </div>
+    <div class="flex items-center my-3 max-sm:flex-col-reverse max-sm:gap-2">
+        <div class="flex items-center gap-2 w-[43%] max-sm:w-full max-sm:justify-center">
+            <p>Resultados por página</p>
+            <form [formGroup]="formFilter">
+                <select class="rounded-3xl p-3 border-2 border-blue cursor-pointer" formControlName="pageSizeSelect" (change)="loadPage(1)">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+            </form>
+        </div>
+        <div class="flex items-center gap-24 w-[57%] max-sm:w-full max-sm:justify-center">
+            <button class="border-2 border-blue rounded-full w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-green" [ngClass]="{ 'opacity-50 cursor-not-allowed': currentPage === 1 }" (click)="prevPage()">
+                <span class="material-symbols-rounded text-blue">
+                    arrow_back_ios_new
+                </span>
+            </button>
+            <button class="border-2 border-blue rounded-full w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-green" [ngClass]="{ 'opacity-50 cursor-not-allowed': currentPage * pageSize >= data.length }" (click)="nextPage()">
+                <span class="material-symbols-rounded text-blue">
+                    arrow_forward_ios
+                </span>
+            </button>
+        </div>
+    </div>
+    <button class="border-2 border-blue rounded-full px-5 py-1 flex justify-center items-center cursor-pointer hover:bg-green text-blue gap-5 max-sm:mx-auto" routerLink="/">
+        <span class="material-symbols-rounded">
+            arrow_back
+        </span>
+        <div class="text-lg font-bold">Volver</div>
+    </button>
 </div>
