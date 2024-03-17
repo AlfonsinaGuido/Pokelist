@@ -1,34 +1,87 @@
-<div class="p-2 flex justify-end">
-    <button mat-icon-button mat-dialog-close aria-label="Close">
-        <span class="material-symbols-rounded">
-            close
-        </span>
-    </button>
-</div>
-<p>Nombre: {{ data.name }}</p>
-<p>Peso: {{ data.weight }} kg</p>
-<p>Altura: {{ data.height }} m</p>
-<div>
-    <h3>Tipos:</h3>
-    <ul>
-    <li *ngFor="let type of data.types">{{ type.type.name }}</li>
-    </ul>
-</div>
-<div>
-    <h3>Habilidades:</h3>
-    <ul>
-    <li *ngFor="let ability of data.abilities">{{ ability.ability.name }}</li>
-    </ul>
-</div>
-<img [src]="data.sprites.front_default" alt="front_{{ data.name }}">
-<img [src]="data.sprites.back_default" alt="back_{{ data.name }}">
-<div>
-    <h3>Estadística:</h3>
-    <div *ngFor="let stat of data.stats">
-        <ul>
-            <li>{{ stat.stat.name }}</li>
-            <li>Valor Base: {{ stat.base_stat }}</li>
-            <li>Puntos de Esfuerzo: {{ stat.effort }}</li>
-        </ul>
+<div class="min-w-[600px] max-sm:min-w-[80vw] overflow-y-auto max-h-[98vh] bg-green shadow-card-shadow-medium">
+    <div class="p-2 flex justify-end">
+        <button mat-icon-button mat-dialog-close aria-label="Close">
+            <span class="material-symbols-rounded">
+                close
+            </span>
+        </button>
+    </div>
+    <div (mouseover)="showBackImage = true" (mouseout)="showBackImage = false" class="w-fit mx-auto">
+        <img *ngIf="!showBackImage" class="border-2 border-blue rounded-3xl bg-white" [src]="data.sprites.front_default" alt="front_{{ data.name }}">
+        <img *ngIf="showBackImage" class="border-2 border-blue rounded-3xl bg-white" [src]="data.sprites.back_default" alt="back_{{ data.name }}">
+    </div>
+    <div class="flex flex-wrap p-4 text-lg font-bold text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="w-1/2 flex justify-center">
+            Nombre
+        </div>
+        <div class="w-1/2 flex justify-center">
+            {{ data.name }}
+        </div>
+    </div>
+    <div class="flex flex-wrap p-4 font-bold text-base text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="w-1/2 flex justify-center">
+            Peso
+        </div>
+        <div class="w-1/2 flex justify-center">
+            {{ data.weight }} Kg
+        </div>
+    </div>
+    <div class="flex flex-wrap p-4 font-bold text-base text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="w-1/2 flex justify-center">
+            Altura
+        </div>
+        <div class="w-1/2 flex justify-center">
+            {{ data.height }} m
+        </div>
+    </div>
+    <div class="flex flex-wrap p-4 font-bold text-base text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="w-1/2 flex justify-center">
+            Tipos
+        </div>
+        <div class="w-1/2 flex justify-center">
+            <ul>
+                <li *ngFor="let type of data.types">{{ type.type.name }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="flex flex-wrap p-4 font-bold text-base text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="w-1/2 flex justify-center">
+            Habilidades
+        </div>
+        <div class="w-1/2 flex justify-center">
+            <ul>
+                <li *ngFor="let ability of data.abilities">{{ ability.ability.name }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg-yellow border-2 border-blue rounded-3xl m-2">
+        <div class="flex flex-wrap p-4 font-bold text-base text-grey">
+            <div class="w-1/3 flex justify-center">
+                Estadística
+            </div>
+            <div class="w-1/3 flex justify-center">
+                <span class="max-sm:hidden">Valor&nbsp;</span>Base
+            </div>
+            <div class="w-1/3 flex justify-center">
+                <span class="max-sm:hidden">Puntos de&nbsp;</span>Esfuerzo
+            </div>
+        </div>
+        <div class="flex flex-wrap p-4 font-bold text-base text-grey" *ngFor="let stat of data.stats">
+            <div class="w-1/3 flex justify-center">
+                <ul>
+                    <li class="text-center">{{ stat.stat.name }}</li>
+                </ul>
+            </div>
+            <div class="w-1/3 flex justify-center">
+                <ul>
+                    <li>{{ stat.base_stat }}</li>
+                </ul>
+            </div>
+            <div class="w-1/3 flex justify-center">
+                <ul>
+                    <li>{{ stat.effort }}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

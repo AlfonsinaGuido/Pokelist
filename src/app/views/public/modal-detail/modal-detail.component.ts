@@ -8,6 +8,8 @@ import { Pokemon } from '@interfaces';
   styleUrls: ['./modal-detail.component.scss']
 })
 export class ModalDetailComponent {
+
+  public showBackImage = false;
   
   constructor(@Inject(MAT_DIALOG_DATA) public data: Pokemon) {}
   
