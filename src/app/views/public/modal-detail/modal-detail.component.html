@@ -6,9 +6,9 @@
             </span>
         </button>
     </div>
-    <div (mouseover)="showBackImage = true" (mouseout)="showBackImage = false" class="w-fit mx-auto">
-        <img *ngIf="!showBackImage" class="border-2 border-blue rounded-3xl bg-white" [src]="data.sprites.front_default" alt="front_{{ data.name }}">
-        <img *ngIf="showBackImage" class="border-2 border-blue rounded-3xl bg-white" [src]="data.sprites.back_default" alt="back_{{ data.name }}">
+    <div class="relative w-24 h-24 mx-auto cursor-pointer" (click)="showBackImage = !showBackImage">
+        <img [src]="data.sprites.front_default" alt="front_{{ data.name }}" class="absolute border-2 border-blue rounded-3xl bg-white" [ngClass]="{'opacity-0': showBackImage}">
+        <img [src]="data.sprites.back_default" alt="back_{{ data.name }}" class="absolute border-2 border-blue rounded-3xl bg-white" [ngClass]="{'opacity-0': !showBackImage}">
     </div>
     <div class="flex flex-wrap p-4 max-sm:p-2 text-lg font-bold text-grey bg-yellow border-2 border-blue rounded-3xl m-2">
         <div class="w-1/2 flex justify-center">
