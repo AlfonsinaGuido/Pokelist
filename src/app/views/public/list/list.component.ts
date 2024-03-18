@@ -41,7 +41,7 @@ export class ListComponent implements OnInit {
     const pokemons: Pokemon[] = [];
     for (let i = 1; i <= 40; i++) {
       try {
-        const pokemon = await this.dataService.getPokelist(i).toPromise();
+        const pokemon = await this.dataService.getPokelist(i);
         if (pokemon) pokemons.push(pokemon);
       } catch (error) {
         console.error(`Error al obtener el Pokémon con ID ${i}:`, error);
